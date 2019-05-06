@@ -19,7 +19,7 @@ library(RCurl)
 library(caTools)
 ```
 
-Get the raw data.
+#Get the raw data.
 ```{r,echo= FALSE}
 #Get the raw data
 FIFA19<- read_csv('https://raw.githubusercontent.com/amanthedorkknight/fifa18-all-player-statistics/master/2019/data.csv')
@@ -29,7 +29,7 @@ FIFA19 <- FIFA19[,-which(names(FIFA19) %in% c("X1","Photo","Flag","Club Logo","R
 FIFA19 
 ```
 
-Plot the Overall rating to see the distribution:
+#Plot the Overall rating to see the distribution:
 ```{r,echo= FALSE}
 #Plot the Overall rating to see the distribution
 FIFA19 %>% ggplot(aes(Overall)) + geom_histogram(color = "white", fill = "black") +
@@ -37,10 +37,10 @@ FIFA19 %>% ggplot(aes(Overall)) + geom_histogram(color = "white", fill = "black"
 mean(as.numeric(FIFA19$Overall))
 sd(as.numeric(FIFA19$Overall))
 ```
-We can see that the Overall rating follows a normal distribution roughly with a mean of 66.2387 and a standard deviation of 6.90893.
+#We can see that the Overall rating follows a normal distribution roughly with a mean of 66.2387 and a standard deviation of 6.90893.
 
-FIFA19 has more than 20 different positions which are too trivial to analyze. Thus, I classify them into four groups: GK(Goal keeper); D(Defender); M(Middle); F(Forward).
-Also, classify player age with 5 years intervel. Put players under 21 and player over 35 into to two big categories.
+#FIFA19 has more than 20 different positions which are too trivial to analyze. Thus, I classify them into four groups: GK(Goal keeper); D(Defender); M(Middle); F(Forward).
+#Also, classify player age with 5 years intervel. Put players under 21 and player over 35 into to two big categories.
 ```{r,echo= FALSE}
 #FIFA19 has more than 20 different positions which are too trivial to analyze. Thus, I classify them into four groups: GK(Goal keeper); D(Defender); M(Middle); F(Forward).
 #Also, classify player age with 5 years intervel. Put players under 21 and player over 35 into to two big categories.
@@ -64,8 +64,8 @@ FIFA19
 
 ```
 
-Plot1: Find the trend of overall rating with age growing up.
-Plot2: Find the trend of overall rating with different positions.
+#Plot1: Find the trend of overall rating with age growing up.
+#Plot2: Find the trend of overall rating with different positions.
 ```{r,echo= FALSE}
 #Find the trend of overall rating with age growing up.
 FIFA19 %>%
@@ -84,10 +84,10 @@ FIFA19 %>%
   facet_wrap(~ Position_group, ncol = 1)
 ```
 
-The overall ratings increases before 31 and meets a inevitable decline around 34. 26-34 are the golden ages of a player. I remove the position "GK" because Goal Keeper is a special position that may have a much longer career.
-For each position, it appears that Goal Keepers have the longest career life and Forwards have the shortest one. The decline of Middles start earliest around 33.
+#The overall ratings increases before 31 and meets a inevitable decline around 34. 26-34 are the golden ages of a player. I remove the position "GK" because Goal Keeper is a special position that may have a much longer career.
+#For each position, it appears that Goal Keepers have the longest career life and Forwards have the shortest one. The decline of Middles start earliest around 33.
 
-Finding the best overall and potential players for each age group.
+#Finding the best overall and potential players for each age group.
 ```{r,echo= FALSE}
 #Finding the best overall rated players for each age group.
 best_rating <- FIFA19 %>%
@@ -104,10 +104,10 @@ best_potential <- FIFA19 %>%
 best_rating
 best_potential
 ```
-We can see that the players whose potential are the highest in their age group are already the best player in their age group.
+#We can see that the players whose potential are the highest in their age group are already the best player in their age group.
 
 
-The players' value and wage of raw data are shown like "€226.5M". Use Regex to transform them into numeric.
+#The players' value and wage of raw data are shown like "€226.5M". Use Regex to transform them into numeric.
 ```{r,echo= FALSE}
 #The players' value and wage of raw data are shown like "€226.5M". Use Regex to transform them into numeric.
 FIFA19 <- FIFA19 %>% 
@@ -118,7 +118,7 @@ FIFA19 <- FIFA19 %>%
 FIFA19
 ```
 
-Plot player valuations.
+#Plot player valuations.
 ```{r,echo= FALSE}
 #Plot player valuations
 FIFA19 %>%
@@ -133,9 +133,9 @@ FIFA19 %>%
   geom_text(data = subset(FIFA19, Name == "Cristiano Ronaldo"), aes(x= PlayerValue, y= 800, label=Name), color = "purple")
 ```
 
-The plot shows that player valuations are heavily skewed, for there are some superstar such as Messi and Ronaldo that are the outliers.
+#The plot shows that player valuations are heavily skewed, for there are some superstar such as Messi and Ronaldo that are the outliers.
 
-Find the top10 most expensive players.
+#Find the top10 most expensive players.
 ```{r,echo= FALSE}
 #Finding top 10 players with highest PlayerValue
 FIFA19 %>%
@@ -149,7 +149,7 @@ FIFA19 %>%
 ```
 
 
-Plot valuations against positions.
+#Plot valuations against positions.
 ```{r,echo= FALSE}
 #Plot valuations against positions.
 FIFA19 %>%
@@ -170,10 +170,10 @@ FIFA19 %>%
   facet_wrap(~ Position_group, scales = "free")
 ```
 
-Forwards and Middles are expensive than defenders and goal keepers.
-For each specific position, left and right forwards are the most expensive positions.
+#Forwards and Middles are expensive than defenders and goal keepers.
+#For each specific position, left and right forwards are the most expensive positions.
 
-Plot valuations against ages.
+#Plot valuations against ages.
 ```{r,echo= FALSE}
 #Plot valuations against ages.
 FIFA19 %>%
@@ -184,19 +184,19 @@ FIFA19 %>%
   xlab("Age")
 ```
 
-Players have the highest valuation in their 25-30 because of their golden age and longer expected career compared to the players in their 31-35. 
+#Players have the highest valuation in their 25-30 because of their golden age and longer expected career compared to the players in their 31-35. 
 
-Plot valuations against overall rating.
+#Plot valuations against overall rating.
 ```{r,echo= FALSE}
 #Plot valuations against overall rating.
 ggplot(FIFA19,aes(x=Overall,y=PlayerValue)) + geom_point(alpha=0.3, color = "blue") + 
   labs(x='Overall',y='Player Value',title='Player Value vs. Overall Rating')
 ```
 
-The plot shows a positive relationship between player valuations and overall rating as expected.
+#The plot shows a positive relationship between player valuations and overall rating as expected.
 
-Analyzing the mean rating for each of the attributes for each position except goal keeper.
-Also, neglect the player whose overall rating is smaller than 75. 
+#Analyzing the mean rating for each of the attributes for each position except goal keeper.
+#Also, neglect the player whose overall rating is smaller than 75. 
 
 ```{r,echo= FALSE}
 #Analyzing the mean rating for each of the attributes for each position except goal keeper.
@@ -222,9 +222,9 @@ Attibutes %>%
   theme(axis.text.x = element_text(angle = 40, hjust = 1), strip.text = element_text(face = "bold", size = 1), legend.position = "none") 
 ```
 
-The results show that forwards and middles do well in agility, acceleration and skills such as dribbling and shots, while defenders are good at strength.
+#The results show that forwards and middles do well in agility, acceleration and skills such as dribbling and shots, while defenders are good at strength.
 
-Check when does the overall rating and potential converge.
+#Check when does the overall rating and potential converge.
 ```{r,echo= FALSE}
 #Plot the average overall line and the average potential line together.
 FIFA19 %>%
@@ -237,9 +237,9 @@ FIFA19 %>%
   ggtitle("Potential And Overall Talent against age")
 ```
 
-Potential and Overall rating coverge at 30 years old, which means players reach highest overall rating at age 30. 
+#Potential and Overall rating coverge at 30 years old, which means players reach highest overall rating at age 30. 
 
-As a team manager, finding and developing potential younger player is a importance job. Give a Anlysis of the young players.
+#As a team manager, finding and developing potential younger player is a importance job. Give a Anlysis of the young players.
 ```{r,echo= FALSE}
 #Defind growth=Potential - Overall and plot the young players with large growth.
 Young <- FIFA19 %>% mutate(Grow = Potential - Overall) %>%
@@ -259,9 +259,9 @@ Young %>%
   geom_text(data = subset(Young, Mode == "Overall"), aes(Name, 10, label=paste(Position, Value, Age, sep = ", "))) 
 ```
 
-The green parts show the young players' overall rating right now and the purple parts are the space they have to reach their potential. It is wise for a manager to focus more on the young players that have higher potential and more space to grow and also have a low market value. Players like B.Mumba and Y.Lenze are good bargain.
+#The green parts show the young players' overall rating right now and the purple parts are the space they have to reach their potential. It is wise for a manager to focus more on the young players that have higher potential and more space to grow and also have a low market value. Players like B.Mumba and Y.Lenze are good bargain.
 
-See the age distribution of the highest value clubs.
+#See the age distribution of the highest value clubs.
 ```{r,echo= FALSE}
 #Find the clubs with highest valuation. (sum of playervalue)
 ClubValue <- FIFA19 %>%
@@ -285,9 +285,9 @@ ggplot(a, aes(x = Club ,y = Age)) +
   coord_flip() +
   ylab("Age distribution")
 ```
-Hotspur seems to have a wonderful balance between players age and valuations. Juventus's players are older than other teams which means they may need big changes in the future to find more young players.
+#Hotspur seems to have a wonderful balance between players age and valuations. Juventus's players are older than other teams which means they may need big changes in the future to find more young players.
 
-Find the top 20 teams with highest average overall rating.
+#Find the top 20 teams with highest average overall rating.
 ```{r,echo= FALSE}
 #Find the top 20 teams with highest average overall rating.
 Overall_team <- FIFA19 %>%
@@ -309,9 +309,9 @@ FIFA19 %>%
   theme(legend.position = "none")
 ```
 
-Listed above are the 20 best teams with highest average rating. They are the strongest football club in to world. There are 6 italian clubs in the rank and 4 of them are in the top 5.
+#Listed above are the 20 best teams with highest average rating. They are the strongest football club in to world. There are 6 italian clubs in the rank and 4 of them are in the top 5.
 
-Define superstar as a player whose rating is equal or higher than 85. Find the teams that have most superstars.
+#Define superstar as a player whose rating is equal or higher than 85. Find the teams that have most superstars.
 ```{r,echo= FALSE}
 #Define superstar as a player whose rating is equal or higher than 85. Find the teams that have most superstars.
 FIFA19 %>%
@@ -331,9 +331,9 @@ FIFA19 %>%
   theme(legend.position = "none")
 ```
 
-Real Madrid, Manchester City and Juventus are the top3 club that have most superstar. Some Italian teams like Inter, Roma and Lazio with higher average rating only have a few superstars. This plot may better show the real power of a club because only 14 players can play in one game. Superstars represent the real talent of the club.
+#Real Madrid, Manchester City and Juventus are the top3 club that have most superstar. Some Italian teams like Inter, Roma and Lazio with higher average rating only have a few superstars. This plot may better show the real power of a club because only 14 players can play in one game. Superstars represent the real talent of the club.
 
-Find the teams with highest attacking and defending abilities. Defind attacking with the average of Finishing, Longshots, ShotPower and Positioning，Dribbling and BallContro. Defend defending with average of
+#Find the teams with highest attacking and defending abilities. Defind attacking with the average of Finishing, Longshots, ShotPower and Positioning，Dribbling and BallContro. Defend defending with average of
 Interceptions,Aggression,Jumping and Strength.
 ```{r,echo= FALSE}
 #Defind attacking and find the best teams.
@@ -351,10 +351,10 @@ FIFA19  %>%
   summarise(NumberofDefender = n(), TeamDefending = mean(Defending)) %>%
   arrange(desc(TeamDefending)) %>% head(20) 
 ```
-As expected, most of the best attacking and defending clubs are also the clubs with highest average overall rating and most superstars. This statistic shows that soccer is a game with both attacking and defending. Only focus on them both can make the club strong and powerful.
+#As expected, most of the best attacking and defending clubs are also the clubs with highest average overall rating and most superstars. This statistic shows that soccer is a game with both attacking and defending. Only focus on them both can make the club strong and powerful.
 
-Team wage analysis
-First, find the top10 players who have the highest wages
+#Team wage analysis
+#First, find the top10 players who have the highest wages
 ```{r,echo= FALSE}
 #Find the top10 players who have the highest wages
 FIFA19 %>%
@@ -384,9 +384,9 @@ FIFA19 %>%
   xlab("Team") + ylab("Wage amounts")
 ```
 
-The number after the bar shows how much a club pays for one point of rating. We can find that Spanish clubs such Real Madrid and FC Barcelona spend a lot of money to pay the players' wages in order to get great achievemnets.
+#The number after the bar shows how much a club pays for one point of rating. We can find that Spanish clubs such Real Madrid and FC Barcelona spend a lot of money to pay the players' wages in order to get great achievemnets.
 
-BMI is a way to measure a player's feature. BMI larger than 25 is considered to be overweight. In order to compute BMI, I have to transform the height into inches and extract the number in weight using function and Regexp.
+#BMI is a way to measure a player's feature. BMI larger than 25 is considered to be overweight. In order to compute BMI, I have to transform the height into inches and extract the number in weight using function and Regexp.
 ```{r,echo= FALSE}
 #Write a function using Regexp to extract the number.
 extract <- function(x){
@@ -408,7 +408,7 @@ FIFA19$Height <- as.numeric(unlist(split))
 FIFA19
 ```
 
-Then, compute BMI. All the players are in a normal shape as expected for they are athletes. 
+#Then, compute BMI. All the players are in a normal shape as expected for they are athletes. 
 ```{r,echo= FALSE}
 #Compute BMI
 FIFA19%>%
@@ -420,7 +420,7 @@ FIFA19%>%
 ```
 
 
-The sofifa.com releases the hottest 100 player in the past week. Scraping the webpage to get player's raw data.
+#The sofifa.com releases the hottest 100 player in the past week. Scraping the webpage to get player's raw data.
 ```{r,echo= FALSE}
 #Scraping data
 table_url <- "https://sofifa.com/players/hot"
@@ -431,7 +431,7 @@ Hot100 <- table_url %>%
 Hot100 <- Hot100[,-c(1,7,10,12)]
 ```
 
-Cleaning the raw data.
+#Cleaning the raw data.
 ```{r,echo= FALSE}
 #Set colnames
 colnames(Hot100)=Hot100[1,]
@@ -441,7 +441,7 @@ Hot100[,1] <- gsub("[A-Z]{2,}","",Hot100$Name)
 Hot100
 ```
 
-Join the tables of Hottest player and FIFA19 to see their values and rating.
+#Join the tables of Hottest player and FIFA19 to see their values and rating.
 ```{r,echo= FALSE}
 #Join the tables of Hottest player and FIFA19
 HotPlayer <- inner_join(FIFA19,Hot100, by = "Name") %>%
@@ -450,7 +450,7 @@ HotPlayer<-rename(HotPlayer,"Reputation"="International Reputation")
 HotPlayer
 ```
 
-Use cor function to find the factors that related to PlayerValue. Choose the factors whose corrlation with PlayValue is larger than 0.65.
+#Use cor function to find the factors that related to PlayerValue. Choose the factors whose corrlation with PlayValue is larger than 0.65.
 ```{r,echo= FALSE}
 #Find the factors that related to PlayerValue.
 Player_Value <- HotPlayer[ , map_lgl(HotPlayer, is.numeric)]
@@ -460,7 +460,7 @@ factor <- rownames(subset(mcor["PlayerValue"], PlayerValue > 0.65))
 factor
 ```
 
-Use the HotPlayer table and the factors found above to fit a linear regression using PlayerValue as response.
+#Use the HotPlayer table and the factors found above to fit a linear regression using PlayerValue as response.
 ```{r,echo= FALSE}
 #Fit a linear model. Split the data into train and test.
 set.seed(101)
@@ -471,8 +471,8 @@ lm <- lm(PlayerValue ~ Overall + Reactions + Special + Reputation + PlayerWage, 
 summary(lm)
 ```
 
-The model's R^2 is larger than 0.9 and most of the estimators are significantly larger than 0.
-Then, use the model to predict players' value in test data. Defind prediction accurracy if the difference between prediction and true value is smaller than 1/5 of the prediction.
+#The model's R^2 is larger than 0.9 and most of the estimators are significantly larger than 0.
+#Then, use the model to predict players' value in test data. Defind prediction accurracy if the difference between prediction and true value is smaller than 1/5 of the prediction.
 
 ```{r,echo= FALSE}
 test_lm <- predict(lm, newdata = test)
@@ -484,4 +484,4 @@ value_predict%>%
   head(10)
 ```
 
-4 in 10 predictions give an accurate predict. The model tends to give a larger value compare to the true value, which means that the model still needs to be improved.
+#4 in 10 predictions give an accurate predict. The model tends to give a larger value compare to the true value, which means that the model still needs to be improved.
