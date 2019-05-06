@@ -485,10 +485,3 @@ value_predict%>%
 ```
 
 4 in 10 predictions give an accurate predict. The model tends to give a larger value compare to the true value, which means that the model still needs to be improved.
-
-```{r,echo= FALSE}
-
-```
-
-
-
